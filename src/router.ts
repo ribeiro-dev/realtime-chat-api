@@ -19,14 +19,13 @@ export function setupSocketListeners(io: Server) {
     socket.emit('getMessages', allMessages)
 
     socket.on('messages@new', (data: Message) => {
-      console.log('Mensagem Novas:')
       allMessages.push(data)
-      console.log(allMessages)
 
-      data.user = socket.id
-      data.owner = false
+      data.id = socket.id + new Date().getTime()
       data.date = new Date()
 
+      console.log('Mensagem Novas:')
+      console.log(allMessages)
       socket.broadcast.emit('messages@new', data);
     });
 
